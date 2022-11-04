@@ -229,6 +229,12 @@
     <Compile Include="ToolForms\frmCrop.Designer.cs">
       <DependentUpon>frmCrop.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToolForms\frmPageSD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ToolForms\frmPageSD.Designer.cs">
+      <DependentUpon>frmPageSD.cs</DependentUpon>
+    </Compile>
     <Compile Include="ToolForms\frmPageNav.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -266,6 +272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ToolForms\frmCrop.resx">
       <DependentUpon>frmCrop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolForms\frmPageSD.resx">
+      <DependentUpon>frmPageSD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ToolForms\frmPageNav.resx">
       <DependentUpon>frmPageNav.cs</DependentUpon>

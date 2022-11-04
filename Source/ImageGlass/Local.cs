@@ -30,6 +30,7 @@ namespace ImageGlass {
         private static frmSetting _fSetting;
         private static frmColorPicker _fColorPicker;
         private static frmPageNav _fPageNav;
+        private static frmPageSD _fSDTool;
         private static frmCrop _fCrop;
         private static FrmExifTool _fExifTool;
 
@@ -67,6 +68,12 @@ namespace ImageGlass {
         /// This is for toggle Page Navigation menu in frmMain
         /// </summary>
         public static bool IsPageNavToolOpenning { get; set; } = false;
+
+        /// <summary>
+        /// Check if frmSDTool is opening.
+        /// This is for toggle SD Tool menu in frmMain
+        /// </summary>
+        public static bool IsPageSDToolOpening { get; set; } = false;
 
         /// <summary>
         /// Gets, sets value if image data was modified
@@ -179,6 +186,13 @@ namespace ImageGlass {
             set => _fPageNav = value;
         }
 
+        /// <summary>
+        /// The Page Navigation form
+        /// </summary>
+        public static frmPageSD FPSDTool {
+            get => LazyInitializer.EnsureInitialized(ref _fSDTool);
+            set => _fSDTool = value;
+        }
         /// <summary>
         /// Form frmColorPicker
         /// </summary>

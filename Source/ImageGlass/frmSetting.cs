@@ -1520,11 +1520,14 @@ namespace ImageGlass {
             chkColorUseHSVA.Checked = Configs.IsColorPickerHSVA;
 
             chkShowPageNavAuto.Checked = Configs.IsShowPageNavAuto;
+            chkShowSDAuto.Checked = Configs.IsShowPageSDOnStartup;
 
             chkExifToolAlwaysOnTop.Checked = Configs.IsExifToolAlwaysOnTop;
             lblExifToolPath.Text = Configs.ExifToolExePath;
 
             txtExifToolCommandArgs.Text = Configs.ExifToolCommandArgs;
+            textNsfwSavePath.Text = Configs.SDToolNsfwFolderPath;
+            textFavSavePath.Text = Configs.SDToolFavFolderPath;
             txtExifToolCommandArgs.LostFocus -= TxtExifToolCommandArgs_LostFocus;
             txtExifToolCommandArgs.LostFocus += TxtExifToolCommandArgs_LostFocus;
             UpdateExifToolCommandPreview();
@@ -2209,6 +2212,9 @@ namespace ImageGlass {
             Configs.IsColorPickerHSVA = chkColorUseHSVA.Checked;
 
             Configs.IsShowPageNavAuto = chkShowPageNavAuto.Checked;
+            Configs.IsShowPageSDOnStartup = chkShowSDAuto.Checked;
+            Configs.SDToolNsfwFolderPath = textNsfwSavePath.Text;
+            Configs.SDToolFavFolderPath = textFavSavePath.Text;
             Configs.IsExifToolAlwaysOnTop = chkExifToolAlwaysOnTop.Checked;
             Configs.ExifToolCommandArgs = txtExifToolCommandArgs.Text.Trim().Replace("\n", "");
             #endregion
@@ -2221,5 +2227,50 @@ namespace ImageGlass {
 
         #endregion
 
+        private void lblSelectNsfwPath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            var ofd = new FolderBrowserDialog() {
+                SelectedPath = Configs.SDToolNsfwFolderPath,
+            };
+
+            if (ofd.ShowDialog() == DialogResult.OK) {
+                var nsfw = ofd.SelectedPath;
+
+                if (!Directory.Exists(nsfw)) {
+                    var msg = string.Format(
+                        Configs.Language.Items[$"{Name}.{nameof(lnkSelectExifTool)}._NotFound"],
+                        ofd.SelectedPath);
+
+                    MessageBox.Show(msg, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else {
+                    Configs.SDToolNsfwFolderPath =
+                        textNsfwSavePath.Text =
+                        ofd.SelectedPath;
+                }
+            }
+        }
+
+        private void lblSelectFavPath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            var ofd = new FolderBrowserDialog() {
+                SelectedPath = Configs.SDToolFavFolderPath,
+            };
+
+            if (ofd.ShowDialog() == DialogResult.OK) {
+                var nsfw = ofd.SelectedPath;
+
+                if (!Directory.Exists(nsfw)) {
+                    var msg = string.Format(
+                        Configs.Language.Items[$"{Name}.{nameof(lnkSelectExifTool)}._NotFound"],
+                        ofd.SelectedPath);
+
+                    MessageBox.Show(msg, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else {
+                    Configs.SDToolNsfwFolderPath =
+                        textFavSavePath.Text =
+                        ofd.SelectedPath;
+                }
+            }
+        }
     }
 }

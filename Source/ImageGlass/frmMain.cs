@@ -746,6 +746,10 @@ namespace ImageGlass {
                            ).ConfigureAwait(true);
                     }
 
+                    if (Local.FPSDTool.Visible) {
+                        LoadSDData(bmpImg.Filename);
+                    }
+
                     // Update current frame index
                     Local.CurrentPageIndex = bmpImg.ActivePageIndex;
                     Local.CurrentPageCount = bmpImg.PageCount;
@@ -831,6 +835,27 @@ namespace ImageGlass {
 
                 // Refresh picMain to update the active page
                 picMain.Invalidate();
+            }
+        }
+
+        private void LoadSDData(string picture) {
+            if (string.IsNullOrEmpty(picture)) { return; }
+            foreach (string line in System.IO.File.ReadLines(picture)) {
+                if (line.Contains("Negative prompt:")) {
+                    var data = line.Split(':');
+                    data[0] = "";
+                    var negative = string.Join("", data).Trim();
+                    Debug.Print(negative);
+                }
+                if (line.Contains("parameters")) {
+                    var data = line.Split('\0');
+                    for (int i = 0; i < data.Count() - 1; i++) {
+                        if (data[i].Contains("parameters")) {
+                            var prompt = data[i + 1];
+                            Local.FPSDTool.lblPageInfo.Text = prompt;
+                        }
+                    }
+                }
             }
         }
 
@@ -929,6 +954,10 @@ namespace ImageGlass {
 
                     filename = Helper.ShortenPath(filename, maxLength);
                 }
+
+                //if (Local.FPSDTool.Visible) {
+                //    Local.FPSDTool.lblPageInfo.Text = Local.ImageList.GetFileName(Local.CurrentIndex);
+                //}
 
                 // image error
                 if (Local.ImageError != null) {
@@ -1433,6 +1462,12 @@ namespace ImageGlass {
                 // Page naviagtion tool
                 if (e.KeyCode == Keys.P) {
                     mnuMainPageNav.PerformClick();
+                    return;
+                }
+
+                // Page naviagtion tool
+                if (e.KeyCode == Keys.I) {
+                    mnuSDTool.PerformClick();
                     return;
                 }
 
@@ -2383,6 +2418,47 @@ namespace ImageGlass {
             }
         }
 
+
+        /// <summary>
+        /// Handle page navigation event
+        /// </summary>
+        /// <param name="sdEvent"></param>
+        private async void SDEvent(frmPageSD.SDEvent sdEvent) {
+            switch (sdEvent) {
+                case frmPageSD.SDEvent.Delete:
+                    mnuMainDeleteFromHardDisk_Click(null, null);
+                    break;
+
+                case frmPageSD.SDEvent.MoveFav:
+                    var currentFile = Local.ImageList.GetFileName(Local.CurrentIndex);
+                    if (string.IsNullOrEmpty(currentFile)) currentFile = "untitled.png";
+                    await SaveImageAsAsync(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile)), Path.GetExtension(currentFile));
+                    if (File.Exists(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile))) && File.Exists(currentFile))
+                        File.Delete(currentFile);
+                    break;
+
+                case frmPageSD.SDEvent.MoveNSFW:
+                    var currentFile2 = Local.ImageList.GetFileName(Local.CurrentIndex);
+                    if (string.IsNullOrEmpty(currentFile2)) currentFile2 = "untitled.png";
+                    await SaveImageAsAsync(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)), Path.GetExtension(currentFile2));
+                    if (File.Exists(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2))) && File.Exists(currentFile2))
+                        File.Delete(currentFile2);
+                    break;
+
+                case frmPageSD.SDEvent.ShowDiff:
+                    mnuMainLastPage_Click(null, null);
+                    break;
+
+                case frmPageSD.SDEvent.NextPic:
+                    _ = NextPicAsync(1);
+                    break;
+
+                case frmPageSD.SDEvent.PrevPic:
+                    _ = NextPicAsync(-1);
+                    break;
+            }
+        }
+
         /// <summary>
         /// Handle cropping tool event
         /// </summary>
@@ -2470,6 +2546,46 @@ namespace ImageGlass {
                     // Close the page navigation tool
                     Local.FPageNav.Close();
                     Local.FPageNav.NavEventHandler = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Show or hide Page naviagtion tool
+        /// </summary>
+        /// <param name="show"></param>
+        private void ShowSDTool(bool show = true) {
+            Local.IsPageSDToolOpening =
+                mnuSDTool.Checked = show;
+
+            if (!Configs.IsShowPageSDOnStartup) {
+                Configs.IsShowPageSDOnStartup = show;
+            }
+
+            if (show) {
+                // Open the page navigation tool
+                if (Local.FPSDTool?.IsDisposed != false) {
+                    Local.FPSDTool = new frmPageSD();
+                }
+
+                // register page event handler
+                Local.FPSDTool.SDEventHandler = SDEvent;
+                Local.ForceUpdateActions |= ForceUpdateActions.PAGE_NAV_MENU;
+                Local.FPSDTool.SetToolFormManager(_toolManager);
+                Local.FPSDTool.Owner = this;
+
+                if (!Local.FPSDTool.Visible) {
+                    Local.FPSDTool.Show(this);
+                    SetStatusBar();
+                }
+
+                Activate();
+            }
+            else {
+                if (Local.FPSDTool != null) {
+                    // Close the page navigation tool
+                    Local.FPSDTool.Close();
+                    Local.FPSDTool.SDEventHandler = null;
                 }
             }
         }
@@ -2857,6 +2973,10 @@ namespace ImageGlass {
                     ShowPageNavTool();
                 }
 
+                // Load Page navigation tool
+                if (Configs.IsShowPageSDOnStartup) {
+                    ShowSDTool();
+                }
                 // Load Full Screen mode
                 if (Configs.IsFullScreen) {
                     Configs.IsFullScreen = !Configs.IsFullScreen;
@@ -3592,6 +3712,13 @@ namespace ImageGlass {
             #region PAGE_NAV_MENU
             if ((flags & ForceUpdateActions.PAGE_NAV_MENU) == ForceUpdateActions.PAGE_NAV_MENU) {
                 mnuMainPageNav.Checked = Local.IsPageNavToolOpenning;
+            }
+            #endregion
+
+
+            #region SD_MENU
+            if ((flags & ForceUpdateActions.PAGE_NAV_MENU) == ForceUpdateActions.PAGE_NAV_MENU) {
+                mnuSDTool.Checked = Local.IsPageSDToolOpening;
             }
             #endregion
 
@@ -4605,7 +4732,9 @@ namespace ImageGlass {
                             }
                         }
                         catch (Exception ex) {
+                            _ = SetAppBusyAsync(false);
                             MessageBox.Show(Configs.Language.Items[$"{Name}._SaveImageError"] + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
                         }
                     }
 
@@ -5587,6 +5716,13 @@ namespace ImageGlass {
             Configs.IsShowPageNavOnStartup = mnuMainPageNav.Checked;
 
             ShowPageNavTool(mnuMainPageNav.Checked);
+        }
+
+
+        private void mnuSDTool_Click(object sender, EventArgs e) {
+            Configs.IsShowPageSDOnStartup = mnuSDTool.Checked;
+
+            ShowSDTool(mnuSDTool.Checked);
         }
 
         private void mnuMainCrop_Click(object sender, EventArgs e) {

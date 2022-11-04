@@ -117,6 +117,7 @@
             this.mnuMainColorPicker = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMainCrop = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMainPageNav = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSDTool = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExifTool = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuMainSettings = new System.Windows.Forms.ToolStripMenuItem();
@@ -1186,6 +1187,7 @@
             this.mnuMainColorPicker,
             this.mnuMainCrop,
             this.mnuMainPageNav,
+            this.mnuSDTool,
             this.mnuExifTool});
             this.mnuMainTools.ForeColor = System.Drawing.Color.Black;
             this.mnuMainTools.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -1230,6 +1232,18 @@
             this.mnuMainPageNav.Size = new System.Drawing.Size(256, 31);
             this.mnuMainPageNav.Text = "[Page navigation]";
             this.mnuMainPageNav.Click += new System.EventHandler(this.mnuMainPageNav_Click);
+            // 
+            // mnuSDTool
+            // 
+            this.mnuSDTool.CheckOnClick = true;
+            this.mnuSDTool.ForeColor = System.Drawing.Color.Black;
+            this.mnuSDTool.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.mnuSDTool.Name = "mnuSDTool";
+            this.mnuSDTool.Padding = new System.Windows.Forms.Padding(0, 2, 0, 1);
+            this.mnuSDTool.ShortcutKeyDisplayString = "I";
+            this.mnuSDTool.Size = new System.Drawing.Size(256, 31);
+            this.mnuSDTool.Text = "SD Helper";
+            this.mnuSDTool.Click += new System.EventHandler(this.mnuSDTool_Click);
             // 
             // mnuExifTool
             // 
@@ -2161,6 +2175,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuMainAlwaysOnTop;
         private System.Windows.Forms.ToolStripMenuItem mnuMainColorPicker;
         private System.Windows.Forms.ToolStripMenuItem mnuMainPageNav;
+        private System.Windows.Forms.ToolStripMenuItem mnuSDTool;
         private System.Windows.Forms.ToolStripButton btnMenu;
         private System.Windows.Forms.ToolStripButton btnDelete;
         private System.Windows.Forms.ToolStripButton btnAutoZoom;
