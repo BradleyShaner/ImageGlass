@@ -91,9 +91,9 @@ namespace ImageGlass {
                 SDEventHandler(SDEvent.MoveNSFW);
             if (sender == btnShowDiff)
                 SDEventHandler(SDEvent.ShowDiff);
-            if (sender == btnPrev)
-                SDEventHandler(SDEvent.NextPic);
             if (sender == btnNext)
+                SDEventHandler(SDEvent.NextPic);
+            if (sender == btnPrev)
                 SDEventHandler(SDEvent.PrevPic);
         }
 
