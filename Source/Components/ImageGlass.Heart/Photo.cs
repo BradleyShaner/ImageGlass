@@ -235,7 +235,7 @@ namespace ImageGlass.Heart {
                     }
                 }
                 else {
-                    imgM.Read(filename, settings);
+                    try { imgM.Read(filename, settings); } catch { }
                 }
 
 

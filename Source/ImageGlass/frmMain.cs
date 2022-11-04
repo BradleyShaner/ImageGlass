@@ -1442,6 +1442,17 @@ namespace ImageGlass {
                     return;
                 }
 
+                // Move Fav
+                if (e.KeyCode == Keys.F) {
+                    SDEvent(frmPageSD.SDEvent.MoveFav);
+                    return;
+                }
+
+                // Move NSFW
+                if (e.KeyCode == Keys.N) {
+                    SDEvent(frmPageSD.SDEvent.MoveNSFW);
+                    return;
+                }
                 // Thumbnail bar
                 if (e.KeyCode == Keys.H) {
                     mnuMainThumbnailBar.PerformClick();

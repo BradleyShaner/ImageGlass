@@ -117,7 +117,7 @@
             this.btnDelete.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(33, 33);
-            this.btnDelete.ToolTipText = "Delete and Next";
+            this.btnDelete.ToolTipText = "Delete and Next (Delete)";
             // 
             // btnSaveFav
             // 
@@ -130,7 +130,7 @@
             this.btnSaveFav.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnSaveFav.Name = "btnSaveFav";
             this.btnSaveFav.Size = new System.Drawing.Size(33, 33);
-            this.btnSaveFav.ToolTipText = "Move to Fav folder";
+            this.btnSaveFav.ToolTipText = "Move to Fav folder (F)";
             // 
             // btnSaveNsfw
             // 
@@ -143,7 +143,7 @@
             this.btnSaveNsfw.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnSaveNsfw.Name = "btnSaveNsfw";
             this.btnSaveNsfw.Size = new System.Drawing.Size(33, 33);
-            this.btnSaveNsfw.ToolTipText = "Move to NSFW Folder";
+            this.btnSaveNsfw.ToolTipText = "Move to NSFW Folder (N)";
             // 
             // btnShowDiff
             // 
