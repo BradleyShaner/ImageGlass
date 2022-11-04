@@ -2432,7 +2432,7 @@ namespace ImageGlass {
                 case frmPageSD.SDEvent.MoveFav:
                     var currentFile = Local.ImageList.GetFileName(Local.CurrentIndex);
                     if (string.IsNullOrEmpty(currentFile)) currentFile = "untitled.png";
-                    await SaveImageAsAsync(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile)), Path.GetExtension(currentFile));
+                    await SaveImageAsAsync(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile)), Path.GetExtension(currentFile).Replace(".", ""));
                     if (File.Exists(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile))) && File.Exists(currentFile))
                         File.Delete(currentFile);
                     break;
@@ -2440,7 +2440,7 @@ namespace ImageGlass {
                 case frmPageSD.SDEvent.MoveNSFW:
                     var currentFile2 = Local.ImageList.GetFileName(Local.CurrentIndex);
                     if (string.IsNullOrEmpty(currentFile2)) currentFile2 = "untitled.png";
-                    await SaveImageAsAsync(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)), Path.GetExtension(currentFile2));
+                    await SaveImageAsAsync(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)), Path.GetExtension(currentFile2).Replace(".", ""));
                     if (File.Exists(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2))) && File.Exists(currentFile2))
                         File.Delete(currentFile2);
                     break;
