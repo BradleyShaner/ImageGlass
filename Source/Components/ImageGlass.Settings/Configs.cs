@@ -244,6 +244,12 @@ namespace ImageGlass.Settings {
         /// </summary>
         public static bool IsShowPageNavOnStartup { get; set; } = false;
 
+
+        /// <summary>
+        /// Gets, sets value that indicates frmPageSD tool will be open on startup
+        /// </summary>
+        public static bool IsShowPageSDOnStartup { get; set; } = false;
+
         /// <summary>
         /// Gets, sets value that indicates page navigation tool auto-show on the multiple pages image
         /// </summary>
@@ -411,10 +417,19 @@ namespace ImageGlass.Settings {
         public static string ExifToolExePath { get; set; } = "";
 
         /// <summary>
+        /// Gets, sets the custom path for NSFW Favs
+        /// </summary>
+        public static string SDToolNsfwFolderPath { get; set; } = "";
+
+        /// <summary>
+        /// Gets, sets the custom path for Favs
+        /// </summary>
+        public static string SDToolFavFolderPath { get; set; } = "";
+
+        /// <summary>
         /// Gets, sets the custom arguments for Exif tool command
         /// </summary>
         public static string ExifToolCommandArgs { get; set; } = "";
-
         #endregion
 
 
@@ -653,6 +668,7 @@ namespace ImageGlass.Settings {
             IsShowingHiddenImages = Get<bool>(nameof(IsShowingHiddenImages), IsShowingHiddenImages);
             IsShowColorPickerOnStartup = Get<bool>(nameof(IsShowColorPickerOnStartup), IsShowColorPickerOnStartup);
             IsShowPageNavOnStartup = Get<bool>(nameof(IsShowPageNavOnStartup), IsShowPageNavOnStartup);
+            IsShowPageSDOnStartup = Get<bool>(nameof(IsShowPageSDOnStartup), IsShowPageSDOnStartup);
             IsShowPageNavAuto = Get<bool>(nameof(IsShowPageNavAuto), IsShowPageNavAuto);
             IsWindowFit = Get<bool>(nameof(IsWindowFit), IsWindowFit);
             IsCenterWindowFit = Get<bool>(nameof(IsCenterWindowFit), IsCenterWindowFit);
@@ -742,6 +758,8 @@ namespace ImageGlass.Settings {
             LastSeenImagePath = Get<string>(nameof(LastSeenImagePath), LastSeenImagePath);
             ExifToolExePath = Get<string>(nameof(ExifToolExePath), ExifToolExePath);
             ExifToolCommandArgs = Get<string>(nameof(ExifToolCommandArgs), ExifToolCommandArgs);
+            SDToolNsfwFolderPath = Get<string>(nameof(SDToolNsfwFolderPath), SDToolNsfwFolderPath);
+            SDToolFavFolderPath = Get<string>(nameof(SDToolFavFolderPath), SDToolFavFolderPath);
 
             #endregion
 
@@ -902,6 +920,7 @@ namespace ImageGlass.Settings {
             Set(nameof(IsShowingHiddenImages), IsShowingHiddenImages);
             Set(nameof(IsShowColorPickerOnStartup), IsShowColorPickerOnStartup);
             Set(nameof(IsShowPageNavOnStartup), IsShowPageNavOnStartup);
+            Set(nameof(IsShowPageSDOnStartup), IsShowPageSDOnStartup);
             Set(nameof(IsShowPageNavAuto), IsShowPageNavAuto);
             Set(nameof(IsWindowFit), IsWindowFit);
             Set(nameof(IsCenterWindowFit), IsCenterWindowFit);
@@ -962,6 +981,8 @@ namespace ImageGlass.Settings {
             Set(nameof(LastSeenImagePath), LastSeenImagePath);
             Set(nameof(ExifToolExePath), ExifToolExePath);
             Set(nameof(ExifToolCommandArgs), ExifToolCommandArgs);
+            Set(nameof(SDToolFavFolderPath), SDToolFavFolderPath);
+            Set(nameof(SDToolNsfwFolderPath), SDToolNsfwFolderPath);
 
             #endregion
 
