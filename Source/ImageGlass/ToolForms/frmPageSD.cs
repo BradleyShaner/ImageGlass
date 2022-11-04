@@ -27,8 +27,7 @@ using ImageGlass.UI.ToolForms;
 
 namespace ImageGlass {
     /// <summary>
-    /// A "Page Navigation" dialog, to allow the user a GUI for moving between
-    /// pages of a multi-page file via the mouse.
+    /// A "SD Helper" dialog, to assist user in managing SD images
     /// </summary>
     public partial class frmPageSD: ToolForm {
         public enum SDEvent {
@@ -71,7 +70,13 @@ namespace ImageGlass {
             btnSnapTo.Click += SnapButton_Click;
         }
 
+        public void EnableButtons() {
 
+            btnShowDiff.Enabled = true;
+            btnSaveFav.Enabled = true;
+            btnSaveNsfw.Enabled = true;
+            btnDelete.Enabled = true;
+        }
 
         #region Private Methods
         /// <summary>
@@ -80,6 +85,12 @@ namespace ImageGlass {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ButtonClick(object sender, EventArgs e) {
+
+            btnShowDiff.Enabled = false;
+            btnSaveFav.Enabled = false;
+            btnSaveNsfw.Enabled = false;
+            btnDelete.Enabled = false;
+
             if (SDEventHandler == null)  // no handler established, do nothing
                 return;
 
@@ -128,6 +139,8 @@ namespace ImageGlass {
 
             btnSnapTo.FlatAppearance.MouseOverBackColor = Theme.LightenColor(Configs.Theme.BackgroundColor, 0.1f);
             btnSnapTo.FlatAppearance.MouseDownBackColor = Theme.DarkenColor(Configs.Theme.BackgroundColor, 0.1f);
+
+            EnableButtons();
         }
 
 

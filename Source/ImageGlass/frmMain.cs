@@ -2427,25 +2427,37 @@ namespace ImageGlass {
         private async void SDEvent(frmPageSD.SDEvent sdEvent) {
             switch (sdEvent) {
                 case frmPageSD.SDEvent.Delete:
-                    mnuMainDeleteFromHardDisk_Click(null, null);
+                    mnuMainMoveToRecycleBin_Click(null, null);
                     break;
 
                 case frmPageSD.SDEvent.MoveFav:
                     var currentFile = Local.ImageList.GetFileName(Local.CurrentIndex);
                     if (string.IsNullOrEmpty(currentFile)) currentFile = "untitled.png";
-                    if (string.IsNullOrEmpty(Configs.SDToolFavFolderPath)) MessageBox.Show("no path set"); return;
-                    await SaveImageAsAsync(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile)), Path.GetExtension(currentFile).Replace(".", ""));
+                    if (string.IsNullOrEmpty(Configs.SDToolFavFolderPath)) { MessageBox.Show("No folder path set!"); return; }
+                    if (File.Exists(currentFile)) {
+                        File.Copy(currentFile, Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile)));
+                        File.SetLastWriteTimeUtc(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile)), DateTime.UtcNow);
+                    }
+                    else {
+                        await SaveImageAsAsync(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile)), Path.GetExtension(currentFile).Replace(".", ""));
+                    }
                     if (File.Exists(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile))) && File.Exists(currentFile))
-                        File.Delete(currentFile);
+                        mnuMainMoveToRecycleBin_Click(null, null);
                     break;
 
                 case frmPageSD.SDEvent.MoveNSFW:
                     var currentFile2 = Local.ImageList.GetFileName(Local.CurrentIndex);
                     if (string.IsNullOrEmpty(currentFile2)) currentFile2 = "untitled.png";
-                    if (string.IsNullOrEmpty(Configs.SDToolNsfwFolderPath)) MessageBox.Show("no path set"); return;
-                    await SaveImageAsAsync(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)), Path.GetExtension(currentFile2).Replace(".", ""));
+                    if (string.IsNullOrEmpty(Configs.SDToolNsfwFolderPath)) { MessageBox.Show("No folder path set!"); return; }
+                    if (File.Exists(currentFile2)) {
+                        File.Copy(currentFile2, Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)));
+                        File.SetLastWriteTimeUtc(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)), DateTime.UtcNow);
+                    }
+                    else {
+                        await SaveImageAsAsync(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)), Path.GetExtension(currentFile2).Replace(".", ""));
+                    }
                     if (File.Exists(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2))) && File.Exists(currentFile2))
-                        File.Delete(currentFile2);
+                        mnuMainMoveToRecycleBin_Click(null, null);
                     break;
 
                 case frmPageSD.SDEvent.ShowDiff:
@@ -2453,13 +2465,15 @@ namespace ImageGlass {
                     break;
 
                 case frmPageSD.SDEvent.NextPic:
-                    _ = NextPicAsync(1);
+                    await NextPicAsync(1);
                     break;
 
                 case frmPageSD.SDEvent.PrevPic:
-                    _ = NextPicAsync(-1);
+                    await NextPicAsync(-1);
                     break;
             }
+
+            Local.FPSDTool.UpdateUI();
         }
 
         /// <summary>
@@ -3730,6 +3744,7 @@ namespace ImageGlass {
                 ApplyTheme(changeBackground: true);
                 Local.FColorPicker.UpdateUI();
                 Local.FPageNav.UpdateUI();
+                Local.FPSDTool.UpdateUI();
                 Local.FCrop.UpdateUI();
             }
             #endregion
@@ -4665,7 +4680,7 @@ namespace ImageGlass {
 
             sp0.Enabled = !Local.IsBusy;
             KeyPreview = true;
-            picMain.Focus();
+            //picMain.Focus();
         }
 
 
