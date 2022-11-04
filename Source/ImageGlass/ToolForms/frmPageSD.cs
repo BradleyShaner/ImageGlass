@@ -201,5 +201,8 @@ namespace ImageGlass {
 
         #endregion
 
+        private void lblPageInfo_DoubleClick(object sender, EventArgs e) {
+            Clipboard.SetText(lblPageInfo.Text);
+        }
     }
 }

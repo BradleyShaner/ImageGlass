@@ -840,6 +840,7 @@ namespace ImageGlass {
 
         private void LoadSDData(string picture) {
             if (string.IsNullOrEmpty(picture)) { return; }
+            string prompt = "";
             foreach (string line in System.IO.File.ReadLines(picture)) {
                 if (line.Contains("Negative prompt:")) {
                     var data = line.Split(':');
@@ -851,12 +852,12 @@ namespace ImageGlass {
                     var data = line.Split('\0');
                     for (int i = 0; i < data.Count() - 1; i++) {
                         if (data[i].Contains("parameters")) {
-                            var prompt = data[i + 1];
-                            Local.FPSDTool.lblPageInfo.Text = prompt;
+                            prompt = data[i + 1];
                         }
                     }
                 }
             }
+            Local.FPSDTool.lblPageInfo.Text = prompt;
         }
 
         /// <summary>
@@ -2432,6 +2433,7 @@ namespace ImageGlass {
                 case frmPageSD.SDEvent.MoveFav:
                     var currentFile = Local.ImageList.GetFileName(Local.CurrentIndex);
                     if (string.IsNullOrEmpty(currentFile)) currentFile = "untitled.png";
+                    if (string.IsNullOrEmpty(Configs.SDToolFavFolderPath)) MessageBox.Show("no path set"); return;
                     await SaveImageAsAsync(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile)), Path.GetExtension(currentFile).Replace(".", ""));
                     if (File.Exists(Path.Combine(Configs.SDToolFavFolderPath, Path.GetFileName(currentFile))) && File.Exists(currentFile))
                         File.Delete(currentFile);
@@ -2440,6 +2442,7 @@ namespace ImageGlass {
                 case frmPageSD.SDEvent.MoveNSFW:
                     var currentFile2 = Local.ImageList.GetFileName(Local.CurrentIndex);
                     if (string.IsNullOrEmpty(currentFile2)) currentFile2 = "untitled.png";
+                    if (string.IsNullOrEmpty(Configs.SDToolNsfwFolderPath)) MessageBox.Show("no path set"); return;
                     await SaveImageAsAsync(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)), Path.GetExtension(currentFile2).Replace(".", ""));
                     if (File.Exists(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2))) && File.Exists(currentFile2))
                         File.Delete(currentFile2);

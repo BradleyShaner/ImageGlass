@@ -98,7 +98,7 @@
             this.btnShowDiff,
             this.btnPrev,
             this.btnNext});
-            this.toolPageSD.Location = new System.Drawing.Point(0, 84);
+            this.toolPageSD.Location = new System.Drawing.Point(0, 100);
             this.toolPageSD.Name = "toolPageSD";
             this.toolPageSD.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolPageSD.ShowItemToolTips = false;
@@ -191,9 +191,10 @@
             this.lblPageInfo.Location = new System.Drawing.Point(-2, 25);
             this.lblPageInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPageInfo.Name = "lblPageInfo";
-            this.lblPageInfo.Size = new System.Drawing.Size(502, 69);
+            this.lblPageInfo.Size = new System.Drawing.Size(502, 84);
             this.lblPageInfo.TabIndex = 9;
             this.lblPageInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPageInfo.DoubleClick += new System.EventHandler(this.lblPageInfo_DoubleClick);
             // 
             // lblFormTitle
             // 
@@ -216,7 +217,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(74)))), ((int)(((byte)(72)))));
-            this.ClientSize = new System.Drawing.Size(500, 127);
+            this.ClientSize = new System.Drawing.Size(500, 143);
             this.Controls.Add(this.lblFormTitle);
             this.Controls.Add(this.toolPageSD);
             this.Controls.Add(this.lblPageInfo);
