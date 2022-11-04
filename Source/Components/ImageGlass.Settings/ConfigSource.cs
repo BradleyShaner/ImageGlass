@@ -130,7 +130,7 @@ namespace ImageGlass.Settings {
 
                 //Issue #567: this breaks LastSeenImagePath when "\n" is part of the path
                 var value = nItem.GetAttribute("value");
-                if (key != "LastSeenImagePath")
+                if (key != "LastSeenImagePath" && key != "SDToolFavFolderPath" && key != "SDToolNsfwFolderPath")
                     value = value.Replace("\\n", "\n");
 
                 list[key] = value;

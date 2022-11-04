@@ -2245,7 +2245,7 @@ namespace ImageGlass {
                 else {
                     Configs.SDToolNsfwFolderPath =
                         textNsfwSavePath.Text =
-                        ofd.SelectedPath;
+                        Path.GetFullPath(ofd.SelectedPath + "\\");
                 }
             }
         }
@@ -2266,9 +2266,9 @@ namespace ImageGlass {
                     MessageBox.Show(msg, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else {
-                    Configs.SDToolNsfwFolderPath =
+                    Configs.SDToolFavFolderPath =
                         textFavSavePath.Text =
-                        ofd.SelectedPath;
+                        Path.GetFullPath(ofd.SelectedPath + "\\");
                 }
             }
         }
