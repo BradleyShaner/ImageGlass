@@ -89,13 +89,19 @@ namespace ImageGlass {
                     var nPrompt = currentPrompt.Split(',');
                     List<string> found = new List<string>();
                     List<string> exact = new List<string>();
-                    string diff = @"{\rtf1\ansi ";
+                    string diff = @"{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}}
+{\colortbl ;\red222\green222\blue222;}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\cf1\f0\fs18\lang1033 ";
                     for (int np = 0; np < nPrompt.Count(); np++) {
                         if (nPrompt[np].Length <= 2) continue;
+                        nPrompt[np] = nPrompt[np].Trim();
                         for (int op = 0; op < oPrompt.Count(); op++) {
+                            oPrompt[op] = oPrompt[op].Trim();
                             if (nPrompt[np] == oPrompt[op]) {
                                 if (np == op) {
-                                    exact.Add(nPrompt[np]);
+                                    exact.Add(nPrompt[np] + np);
+                                    found.Add(nPrompt[np] + np);
                                 }
                                 else {
                                     found.Add(nPrompt[np]);
@@ -103,19 +109,19 @@ namespace ImageGlass {
                                 break;
                             }
                         }
-                        if (exact.Contains(nPrompt[np])) {
-                            diff += @"\b\i\ul " + nPrompt[np].Trim() + @"\b0\i0\ul0\, ";
+                        if (exact.Contains(nPrompt[np] + np)) {
+                            diff += @"\b\i\ulw " + nPrompt[np].Trim() + @"\b0\i0\ulw0 , ";
                         }
                         else if (found.Contains(nPrompt[np])) {
-                            diff += @"\b\i " + nPrompt[np].Trim() + @"\b0\i0\, ";
+                            diff += @"\b\i " + nPrompt[np].Trim() + @"\b0\i0 , ";
                         }
                         else {
-                            diff += nPrompt[np].Trim() + ", ";
+                            diff += @"" + nPrompt[np].Trim() + @", ";
                         }
                     }
                     if (diff.LastIndexOf(',') >= diff.Length - 3)
                         diff = diff.Substring(0, diff.LastIndexOf(',')).Trim();
-                    rtbSDInfo.Rtf = diff + "}";
+                    rtbSDInfo.Rtf = diff + Environment.NewLine + "}";
                     return;
                 }
             }
