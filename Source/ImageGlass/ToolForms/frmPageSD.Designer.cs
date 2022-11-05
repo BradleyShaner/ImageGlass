@@ -36,6 +36,7 @@
             this.btnNext = new System.Windows.Forms.ToolStripButton();
             this.lblPageInfo = new System.Windows.Forms.Label();
             this.lblFormTitle = new System.Windows.Forms.Label();
+            this.rtbSDInfo = new System.Windows.Forms.RichTextBox();
             this.toolPageSD.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -212,12 +213,26 @@
             this.lblFormTitle.Text = "Stable Diffusion Helper";
             this.lblFormTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // rtbSDInfo
+            // 
+            this.rtbSDInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(74)))), ((int)(((byte)(72)))));
+            this.rtbSDInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbSDInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtbSDInfo.Location = new System.Drawing.Point(2, 25);
+            this.rtbSDInfo.Name = "rtbSDInfo";
+            this.rtbSDInfo.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.rtbSDInfo.Size = new System.Drawing.Size(496, 84);
+            this.rtbSDInfo.TabIndex = 29;
+            this.rtbSDInfo.Text = "";
+            this.rtbSDInfo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.rtbSDInfo_MouseDoubleClick);
+            // 
             // frmPageSD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(74)))), ((int)(((byte)(72)))));
             this.ClientSize = new System.Drawing.Size(500, 143);
+            this.Controls.Add(this.rtbSDInfo);
             this.Controls.Add(this.lblFormTitle);
             this.Controls.Add(this.toolPageSD);
             this.Controls.Add(this.lblPageInfo);
@@ -258,5 +273,6 @@
         private System.Windows.Forms.ToolStripButton btnPrev;
         public System.Windows.Forms.Label lblPageInfo;
         private System.Windows.Forms.Label lblFormTitle;
+        internal System.Windows.Forms.RichTextBox rtbSDInfo;
     }
 }

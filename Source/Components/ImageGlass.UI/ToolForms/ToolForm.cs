@@ -258,7 +258,8 @@ namespace ImageGlass.UI.ToolForms {
                 if (control is Label ||
                     control is TextBox ||
                     control is NumericUpDown ||
-                    control is Button) {
+                    control is Button ||
+                    control is RichTextBox) {
                     control.BackColor = bgColor;
                     control.ForeColor = fontColor;
                 }

@@ -427,6 +427,11 @@ namespace ImageGlass.Settings {
         public static string SDToolFavFolderPath { get; set; } = "";
 
         /// <summary>
+        /// Show or hide the differences in prompts
+        /// </summary>
+        public static bool SDToolShowDiff { get; set; } = true;
+
+        /// <summary>
         /// Gets, sets the custom arguments for Exif tool command
         /// </summary>
         public static string ExifToolCommandArgs { get; set; } = "";
@@ -760,6 +765,7 @@ namespace ImageGlass.Settings {
             ExifToolCommandArgs = Get<string>(nameof(ExifToolCommandArgs), ExifToolCommandArgs);
             SDToolNsfwFolderPath = Get<string>(nameof(SDToolNsfwFolderPath), SDToolNsfwFolderPath);
             SDToolFavFolderPath = Get<string>(nameof(SDToolFavFolderPath), SDToolFavFolderPath);
+            SDToolShowDiff = Get<bool>(nameof(SDToolShowDiff), SDToolShowDiff);
 
             #endregion
 
@@ -767,7 +773,7 @@ namespace ImageGlass.Settings {
 
             #region ZoomLevels
 
-            var zoomLevelStr = Get<string>(nameof(ZoomLevels), "");
+             var zoomLevelStr = Get<string>(nameof(ZoomLevels), "");
             var zoomLevels = Helpers.StringToIntArray(zoomLevelStr, unsignedOnly: true, distinct: true);
 
             if (zoomLevels.Length > 0) ZoomLevels = zoomLevels;
@@ -982,6 +988,7 @@ namespace ImageGlass.Settings {
             Set(nameof(ExifToolExePath), ExifToolExePath);
             Set(nameof(ExifToolCommandArgs), ExifToolCommandArgs);
             Set(nameof(SDToolFavFolderPath), SDToolFavFolderPath);
+            Set(nameof(SDToolShowDiff), SDToolShowDiff);
             Set(nameof(SDToolNsfwFolderPath), SDToolNsfwFolderPath);
 
             #endregion

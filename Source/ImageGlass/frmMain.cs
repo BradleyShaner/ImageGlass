@@ -841,11 +841,12 @@ namespace ImageGlass {
         private void LoadSDData(string picture) {
             if (string.IsNullOrEmpty(picture)) { return; }
             string prompt = "";
+            string negative = "";
             foreach (string line in System.IO.File.ReadLines(picture)) {
                 if (line.Contains("Negative prompt:")) {
                     var data = line.Split(':');
                     data[0] = "";
-                    var negative = string.Join("", data).Trim();
+                    negative = string.Join("", data).Trim();
                     Debug.Print(negative);
                 }
                 if (line.Contains("parameters")) {
@@ -857,7 +858,12 @@ namespace ImageGlass {
                     }
                 }
             }
-            Local.FPSDTool.lblPageInfo.Text = prompt;
+            if (!string.IsNullOrEmpty(prompt))
+                Local.FPSDTool.previousPrompt = Local.FPSDTool.currentPrompt;
+
+            Local.FPSDTool.currentPrompt = prompt;
+            Local.FPSDTool.currentNegativePrompt = negative;
+            Local.FPSDTool.UpdatePrompts();
         }
 
         /// <summary>
@@ -2472,7 +2478,7 @@ namespace ImageGlass {
                     break;
 
                 case frmPageSD.SDEvent.ShowDiff:
-                    mnuMainLastPage_Click(null, null);
+                    Configs.SDToolShowDiff = !Configs.SDToolShowDiff;
                     break;
 
                 case frmPageSD.SDEvent.NextPic:
@@ -5752,6 +5758,7 @@ namespace ImageGlass {
             Configs.IsShowPageSDOnStartup = mnuSDTool.Checked;
 
             ShowSDTool(mnuSDTool.Checked);
+            LoadSDData(Local.ImageList.GetFileName(Local.CurrentIndex));
         }
 
         private void mnuMainCrop_Click(object sender, EventArgs e) {

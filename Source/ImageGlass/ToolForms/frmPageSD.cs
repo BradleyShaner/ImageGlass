@@ -18,7 +18,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using ImageGlass.Base;
 using ImageGlass.Settings;
@@ -43,7 +45,10 @@ namespace ImageGlass {
         /// The handler to send SDEvents to.
         /// </summary>
         public PageSDEvent SDEventHandler { get; set; }
-
+        public string previousPrompt = "";
+        public string currentPrompt = "";
+        public string currentNegativePrompt = "";
+        public bool showingNegativePrompt = false;
 
         public delegate void PageSDEvent(SDEvent SDEvent);
 
@@ -70,6 +75,55 @@ namespace ImageGlass {
             btnSnapTo.Click += SnapButton_Click;
         }
 
+        public void UpdatePrompts() {
+            if (!string.IsNullOrEmpty(currentPrompt)) {
+                if (Configs.SDToolShowDiff == false) {
+                    rtbSDInfo.Text = currentPrompt;
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(previousPrompt)) {
+                    rtbSDInfo.Text = currentPrompt;
+                }
+                else {
+                    var oPrompt = previousPrompt.Split(',');
+                    var nPrompt = currentPrompt.Split(',');
+                    List<string> found = new List<string>();
+                    List<string> exact = new List<string>();
+                    string diff = @"{\rtf1\ansi ";
+                    for (int np = 0; np < nPrompt.Count(); np++) {
+                        if (nPrompt[np].Length <= 2) continue;
+                        for (int op = 0; op < oPrompt.Count(); op++) {
+                            if (nPrompt[np] == oPrompt[op]) {
+                                if (np == op) {
+                                    exact.Add(nPrompt[np]);
+                                }
+                                else {
+                                    found.Add(nPrompt[np]);
+                                }
+                                break;
+                            }
+                        }
+                        if (exact.Contains(nPrompt[np])) {
+                            diff += @"\b\i\ul " + nPrompt[np].Trim() + @"\b0\i0\ul0\, ";
+                        }
+                        else if (found.Contains(nPrompt[np])) {
+                            diff += @"\b\i " + nPrompt[np].Trim() + @"\b0\i0\, ";
+                        }
+                        else {
+                            diff += nPrompt[np].Trim() + ", ";
+                        }
+                    }
+                    if (diff.LastIndexOf(',') >= diff.Length - 3)
+                        diff = diff.Substring(0, diff.LastIndexOf(',')).Trim();
+                    rtbSDInfo.Rtf = diff + "}";
+                    return;
+                }
+            }
+            else {
+                //Local.FPSDTool.rtbSDInfo.Rtf = "";
+                Local.FPSDTool.rtbSDInfo.Text = "No prompts found.";
+            }
+        }
         public void EnableButtons() {
 
             btnShowDiff.Enabled = true;
@@ -139,6 +193,8 @@ namespace ImageGlass {
 
             btnSnapTo.FlatAppearance.MouseOverBackColor = Theme.LightenColor(Configs.Theme.BackgroundColor, 0.1f);
             btnSnapTo.FlatAppearance.MouseDownBackColor = Theme.DarkenColor(Configs.Theme.BackgroundColor, 0.1f);
+
+            showingNegativePrompt = false;
 
             EnableButtons();
         }
@@ -216,6 +272,15 @@ namespace ImageGlass {
 
         private void lblPageInfo_DoubleClick(object sender, EventArgs e) {
             Clipboard.SetText(lblPageInfo.Text);
+        }
+
+        private void rtbSDInfo_MouseDoubleClick(object sender, MouseEventArgs e) {
+            showingNegativePrompt = !showingNegativePrompt;
+
+            if (showingNegativePrompt) {
+                rtbSDInfo.Text = currentNegativePrompt;
+            } else { UpdatePrompts(); }
+
         }
     }
 }
