@@ -48,6 +48,7 @@ namespace ImageGlass {
         public string previousPrompt = "";
         public string currentPrompt = "";
         public string currentNegativePrompt = "";
+        public string currentPromptDetails = "";
         public bool showingNegativePrompt = false;
 
         public delegate void PageSDEvent(SDEvent SDEvent);
@@ -77,6 +78,7 @@ namespace ImageGlass {
 
         public void UpdatePrompts() {
             if (!string.IsNullOrEmpty(currentPrompt)) {
+                this.lblFormTitle.Text = currentPromptDetails;
                 if (Configs.SDToolShowDiff == false) {
                     rtbSDInfo.Text = currentPrompt;
                     return;
@@ -128,6 +130,7 @@ namespace ImageGlass {
             else {
                 //Local.FPSDTool.rtbSDInfo.Rtf = "";
                 Local.FPSDTool.rtbSDInfo.Text = "No prompts found.";
+                this.lblFormTitle.Text = "SD Helper";
             }
         }
         public void EnableButtons() {
@@ -275,10 +278,6 @@ namespace ImageGlass {
         }
 
         #endregion
-
-        private void lblPageInfo_DoubleClick(object sender, EventArgs e) {
-            Clipboard.SetText(lblPageInfo.Text);
-        }
 
         private void rtbSDInfo_MouseDoubleClick(object sender, MouseEventArgs e) {
             showingNegativePrompt = !showingNegativePrompt;

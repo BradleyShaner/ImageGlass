@@ -840,14 +840,21 @@ namespace ImageGlass {
 
         private void LoadSDData(string picture) {
             if (string.IsNullOrEmpty(picture)) { return; }
-            string prompt = "";
-            string negative = "";
+            var prompt = "";
+            var negative = "";
+            var seed = "";
+            var steps = "";
+            var Sampler = "";
+            var CFG = "";
+            var size = "";
+            var model = "";
+            var ensd = "";
             foreach (string line in System.IO.File.ReadLines(picture)) {
                 if (line.Contains("Negative prompt:")) {
                     var data = line.Split(':');
                     data[0] = "";
                     negative = string.Join("", data).Trim();
-                    Debug.Print(negative);
+                    continue;
                 }
                 if (line.Contains("parameters")) {
                     var data = line.Split('\0');
@@ -857,12 +864,39 @@ namespace ImageGlass {
                         }
                     }
                 }
+                if (line.Contains("Seed:")) {
+                    var data = line.Split(':');
+                    for (int i = 0; i < data.Count() - 1; i++) {
+                        if (data[i].Contains("Seed")) {
+                            seed = data[i + 1].Split(',')[0];
+                        }
+                        if (data[i].Contains("Steps")) {
+                            steps = data[i + 1].Split(',')[0];
+                        }
+                        //if (data[i].Contains("ENSD")) {
+                        //    ensd = data[i + 1];
+                        //}
+                        if (data[i].Contains("Model hash")) {
+                            model = data[i + 1].Split(',')[0];
+                        }
+                        if (data[i].Contains("Size")) {
+                            size = data[i + 1].Split(',')[0];
+                        }
+                        if (data[i].Contains("Sampler")) {
+                            Sampler = data[i + 1].Split(',')[0];
+                        }
+                        if (data[i].Contains("CFG scale")) {
+                            CFG = data[i + 1].Split(',')[0];
+                        }
+                    }
+                }
             }
             if (!string.IsNullOrEmpty(prompt))
                 Local.FPSDTool.previousPrompt = Local.FPSDTool.currentPrompt;
 
             Local.FPSDTool.currentPrompt = prompt;
             Local.FPSDTool.currentNegativePrompt = negative;
+            Local.FPSDTool.currentPromptDetails = $"{Sampler}, Seed: {seed}, Steps:{steps}, CFG:{CFG}, {size} ({model})";
             Local.FPSDTool.UpdatePrompts();
         }
 

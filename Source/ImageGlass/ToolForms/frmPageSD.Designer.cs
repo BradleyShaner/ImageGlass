@@ -34,7 +34,6 @@
             this.btnShowDiff = new System.Windows.Forms.ToolStripButton();
             this.btnPrev = new System.Windows.Forms.ToolStripButton();
             this.btnNext = new System.Windows.Forms.ToolStripButton();
-            this.lblPageInfo = new System.Windows.Forms.Label();
             this.lblFormTitle = new System.Windows.Forms.Label();
             this.rtbSDInfo = new System.Windows.Forms.RichTextBox();
             this.toolPageSD.SuspendLayout();
@@ -185,18 +184,6 @@
             this.btnNext.Size = new System.Drawing.Size(33, 33);
             this.btnNext.ToolTipText = "Next Pic";
             // 
-            // lblPageInfo
-            // 
-            this.lblPageInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblPageInfo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPageInfo.Location = new System.Drawing.Point(-2, 25);
-            this.lblPageInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblPageInfo.Name = "lblPageInfo";
-            this.lblPageInfo.Size = new System.Drawing.Size(502, 84);
-            this.lblPageInfo.TabIndex = 9;
-            this.lblPageInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPageInfo.DoubleClick += new System.EventHandler(this.lblPageInfo_DoubleClick);
-            // 
             // lblFormTitle
             // 
             this.lblFormTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -207,21 +194,19 @@
             this.lblFormTitle.Location = new System.Drawing.Point(0, 4);
             this.lblFormTitle.Margin = new System.Windows.Forms.Padding(10, 0, 3, 0);
             this.lblFormTitle.Name = "lblFormTitle";
-            this.lblFormTitle.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.lblFormTitle.Size = new System.Drawing.Size(393, 21);
+            this.lblFormTitle.Size = new System.Drawing.Size(399, 21);
             this.lblFormTitle.TabIndex = 28;
-            this.lblFormTitle.Text = "Stable Diffusion Helper";
-            this.lblFormTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblFormTitle.Text = "SD Helper";
             // 
             // rtbSDInfo
             // 
             this.rtbSDInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(74)))), ((int)(((byte)(72)))));
             this.rtbSDInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbSDInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtbSDInfo.Location = new System.Drawing.Point(2, 25);
+            this.rtbSDInfo.Location = new System.Drawing.Point(3, 25);
             this.rtbSDInfo.Name = "rtbSDInfo";
             this.rtbSDInfo.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbSDInfo.Size = new System.Drawing.Size(496, 84);
+            this.rtbSDInfo.Size = new System.Drawing.Size(495, 72);
             this.rtbSDInfo.TabIndex = 29;
             this.rtbSDInfo.Text = "";
             this.rtbSDInfo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.rtbSDInfo_MouseDoubleClick);
@@ -232,12 +217,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(74)))), ((int)(((byte)(72)))));
             this.ClientSize = new System.Drawing.Size(500, 143);
-            this.Controls.Add(this.rtbSDInfo);
             this.Controls.Add(this.lblFormTitle);
             this.Controls.Add(this.toolPageSD);
-            this.Controls.Add(this.lblPageInfo);
             this.Controls.Add(this.btnSnapTo);
             this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.rtbSDInfo);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
@@ -271,7 +255,6 @@
         private System.Windows.Forms.ToolStripButton btnShowDiff;
         private System.Windows.Forms.ToolStripButton btnNext;
         private System.Windows.Forms.ToolStripButton btnPrev;
-        public System.Windows.Forms.Label lblPageInfo;
         private System.Windows.Forms.Label lblFormTitle;
         internal System.Windows.Forms.RichTextBox rtbSDInfo;
     }
