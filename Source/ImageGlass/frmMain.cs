@@ -2501,7 +2501,7 @@ namespace ImageGlass {
                     if (string.IsNullOrEmpty(currentFile2)) currentFile2 = "untitled.png";
                     if (string.IsNullOrEmpty(Configs.SDToolNsfwFolderPath)) { MessageBox.Show("No folder path set!"); return; }
                     if (File.Exists(currentFile2)) {
-                        File.Copy(currentFile2, Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)));
+                        if (!File.Exists(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)))) File.Copy(currentFile2, Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)));
                         File.SetLastWriteTimeUtc(Path.Combine(Configs.SDToolNsfwFolderPath, Path.GetFileName(currentFile2)), DateTime.UtcNow);
                     }
                     else {
